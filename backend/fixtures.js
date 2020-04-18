@@ -19,7 +19,7 @@ const run = async () => {
         {
             fullName: 'Roy Tims',
             username: 'user1',
-            password: 'user1123',
+            password: 'user123',
             token: nanoid(),
         },
         {

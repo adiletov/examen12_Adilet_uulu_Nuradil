@@ -9,39 +9,39 @@ const {nanoid} = require('nanoid');
 const User = require('../models/User');
 const config = require('../config');
 
-router.post('/', async (req,res)=>{
+router.post('/', async (req, res) => {
+    const username = await User.findOne({username: req.body.username});
+    if (username) {
+        return res.status(401).send({errors: {username: {message: 'This user is already registered'}}})
+    }
     const newUser = {
         fullName: req.body.fullName,
         username: req.body.username,
         password: req.body.password
     };
     const user = new User(newUser);
-    try{
+    try {
         await user.generationToken();
         await user.save();
         res.send({message: 'Successful registration', user})
-    }catch (e) {
-        if (e.code === 11000){
-            res.status(401).send({errors: {username: {message: 'This user is already registered'}}})
-        }else{
-            res.status(401).send(e)
-        }
+    } catch (e) {
+        res.status(401).send(e)
     }
 });
 
-router.post('/sessions', async (req,res)=>{
-   const user = await User.findOne({username: req.body.username});
-   if (!user){
-       return res.status(401).send({error: 'Username or password in correct!'})
-   }
+router.post('/sessions', async (req, res) => {
+    const user = await User.findOne({username: req.body.username});
+    if (!user) {
+        return res.status(401).send({error: 'Username or password in correct!'})
+    }
 
-   const isMatch = await bcrypt.compare(req.body.password, user.password);
-   if (!isMatch){
-       return res.status(401).send({error: 'Username or password in correct!'})
-   }
-   await user.generationToken();
-   await user.save();
-   res.send({message: 'Successful login', user})
+    const isMatch = await bcrypt.compare(req.body.password, user.password);
+    if (!isMatch) {
+        return res.status(401).send({error: 'Username or password in correct!'})
+    }
+    await user.generationToken();
+    await user.save();
+    res.send({message: 'Successful login', user})
 });
 
 
