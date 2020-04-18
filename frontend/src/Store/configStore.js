@@ -19,16 +19,16 @@ const middleware = [
 
 const enhancers = composeEnhancers(applyMiddleware(...middleware));
 
-const persistedSate = loadFromLocalStorage();
+// const persistedSate = loadFromLocalStorage();
 
-const store = createStore(rootReducer, persistedSate, enhancers);
+const store = createStore(rootReducer,  enhancers);
 
-store.subscribe(() => {
-    saveToLocalStorage({
-        users: {
-            user: store.getState().users.user
-        }
-    });
-});
+// store.subscribe(() => {
+//     saveToLocalStorage({
+//         users: {
+//             user: store.getState().users.user
+//         }
+//     });
+// });
 
 export default store;
