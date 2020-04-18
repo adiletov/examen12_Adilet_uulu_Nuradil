@@ -7,6 +7,8 @@ import {ConnectedRouter} from "connected-react-router";
 import {Provider} from "react-redux";
 import store , {history} from "./Store/configStore";
 
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const app = (
     <Provider store={store}>

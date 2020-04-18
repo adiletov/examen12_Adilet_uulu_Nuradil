@@ -4,6 +4,11 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import {connect} from "react-redux";
+import {registerUser} from "../../Store/Action/actionUsers";
+import Alert from "@material-ui/lab/Alert";
+import FacebookButton from "../../Component/FacebookButton/FacebookButton";
+import Divider from "@material-ui/core/Divider";
 
 class Register extends Component {
     state = {
@@ -19,6 +24,16 @@ class Register extends Component {
 
     submitChangeHandler = (e) => {
         e.preventDefault();
+        this.props.registerUser({...this.state})
+    };
+
+    errorHandler = (fieldName) => {
+        return (
+            this.props.error &&
+            this.props.error.errors &&
+            this.props.error.errors[fieldName] &&
+            this.props.error.errors[fieldName].message
+        );
     };
 
     render() {
@@ -32,6 +47,11 @@ class Register extends Component {
                             </Typography>
                         </Box>
                         <form onSubmit={this.submitChangeHandler}>
+                            {this.props.error && this.props.error.global && (
+                                <Alert color="warning">
+                                    {this.props.error.global}
+                                </Alert>
+                            )}
                             <Grid container spacing={2} direction="column">
                                 <Grid item xs>
                                     <FormElement
@@ -40,7 +60,7 @@ class Register extends Component {
                                         value={this.state.fullName}
                                         title="Full Name"
                                         onChange={this.inputChangeHandler}
-                                        error={null}
+                                        error={this.errorHandler('fullName')}
                                     />
                                 </Grid>
                                 <Grid item xs>
@@ -50,7 +70,7 @@ class Register extends Component {
                                         value={this.state.username}
                                         title="Username"
                                         onChange={this.inputChangeHandler}
-                                        error={null}
+                                        error={this.errorHandler('username')}
                                     />
                                 </Grid>
                                 <Grid item xs>
@@ -60,13 +80,17 @@ class Register extends Component {
                                         value={this.state.password}
                                         title="Password"
                                         onChange={this.inputChangeHandler}
-                                        error={null}
+                                        error={this.errorHandler('password')}
                                     />
                                 </Grid>
                                 <Grid item xs>
                                     <Button type="submit" variant="contained" color="primary">Register</Button>
                                 </Grid>
                                 <Grid item xs>
+                                    <Divider/>
+                                </Grid>
+                                <Grid item xs>
+                                    <FacebookButton title="Register"/>
                                 </Grid>
                             </Grid>
                         </form>
@@ -77,4 +101,12 @@ class Register extends Component {
     }
 }
 
-export default Register;
+const mapStateToProps = state => ({
+    error: state.users.registerError
+});
+
+const mapDispatchToProps = dispatch => ({
+    registerUser: (user) => dispatch(registerUser(user))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

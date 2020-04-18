@@ -4,6 +4,11 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import {connect} from "react-redux";
+import {loginUser} from "../../Store/Action/actionUsers";
+import {Alert} from "@material-ui/lab";
+import Divider from "@material-ui/core/Divider";
+import FacebookButton from "../../Component/FacebookButton/FacebookButton";
 
 class Login extends Component {
     state = {
@@ -18,8 +23,8 @@ class Login extends Component {
 
     submitChangeHandler = (e) => {
         e.preventDefault();
+        this.props.loginUser({...this.state})
     };
-
     render() {
         return (
             <>
@@ -31,6 +36,11 @@ class Login extends Component {
                             </Typography>
                         </Box>
                         <form onSubmit={this.submitChangeHandler}>
+                            {this.props.error &&
+                            <Alert color="warning">
+                                {this.props.error.error}
+                            </Alert>
+                            }
                             <Grid container spacing={2} direction="column">
                                 <Grid item xs>
                                     <FormElement
@@ -56,6 +66,10 @@ class Login extends Component {
                                     <Button type="submit" variant="contained" color="primary">Login</Button>
                                 </Grid>
                                 <Grid item xs>
+                                    <Divider/>
+                                </Grid>
+                                <Grid item xs>
+                                    <FacebookButton title="Login"/>
                                 </Grid>
                             </Grid>
                         </form>
@@ -66,4 +80,12 @@ class Login extends Component {
     }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+    error: state.users.loginError
+});
+
+const mapDispatchToProps = dispatch => ({
+    loginUser: (user)=> dispatch(loginUser(user))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

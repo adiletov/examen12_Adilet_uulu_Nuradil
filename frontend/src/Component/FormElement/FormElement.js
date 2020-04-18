@@ -14,6 +14,7 @@ const FormElement = (props) => {
         onChange={props.onChange}
         helperText={props.error}
         label={props.title}
+        error={!!props.error}
     />;
 
     if (props.type === 'file'){
