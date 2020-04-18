@@ -4,12 +4,14 @@ import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunk from "redux-thunk";
 import {loadFromLocalStorage, saveToLocalStorage} from "./configLocalStorage";
 import reducerUsers from "./Reducer/reducerUser";
+import reducerPhotos from "./Reducer/reducerFotos";
 
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
     router: connectRouter(history),
-    users: reducerUsers
+    users: reducerUsers,
+    photos: reducerPhotos
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

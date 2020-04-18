@@ -69,7 +69,7 @@ const UserMenu = ({user, logout}) => {
                     </ListItemIcon>
                     <ListItemText  primary="Add photo" />
                 </StyledMenuItem>
-                <StyledMenuItem component={NavLink} to="/gallery">
+                <StyledMenuItem component={NavLink} to="/my_gallery">
                     <ListItemIcon>
                         <PhotoLibraryIcon/>
                     </ListItemIcon>

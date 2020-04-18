@@ -11,7 +11,7 @@ const photos = require('./router/Photos');
 
 app.use(cors());
 app.use(express.json());
-
+app.use(express.static('public'));
 
 const run = async () => {
     await mongoose.connect(config.database, config.options);

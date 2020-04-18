@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     }
 });
 
-const FileInput = ({onChange, name, label}) => {
+const FileInput = ({onChange, name, label, error}) => {
     const classes = useStyles();
 
     const inputRef = createRef();
@@ -48,6 +48,8 @@ const FileInput = ({onChange, name, label}) => {
                         fullWidth
                         label={label}
                         value={filename}
+                        error={!!error}
+                        helperText={error}
                         onClick={activateInput}
                     />
                 </Grid>
