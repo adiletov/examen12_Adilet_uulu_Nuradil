@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 
 const config = require('./config');
 const users = require('./router/Users');
+const photos = require('./router/Photos');
 
 app.use(cors());
 app.use(express.json());
@@ -16,6 +17,7 @@ const run = async () => {
     await mongoose.connect(config.database, config.options);
 
     app.use('/users', users);
+    app.use('/photos', photos);
 
     app.listen(port)
 };
