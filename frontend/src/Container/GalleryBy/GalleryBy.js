@@ -11,9 +11,9 @@ const GalleryBy = (props) => {
     }, [dispatch, props.match.params.id]);
     const gallery = useSelector(state => state.photos.galleryUser);
     return (
-        <Grid container spacing={1}>
+        <Grid container spacing={1} wrap="wrap">
             { gallery.map(obj=>
-                <Grid item xs key={obj._id}>
+                <Grid item xs={4} key={obj._id}>
                     <CardPhoto title={obj.title} user={obj.userId} id={obj._id} image={obj.image}/>
                 </Grid>
             )}

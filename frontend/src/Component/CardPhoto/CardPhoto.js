@@ -5,7 +5,6 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
-import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {apiURL} from "../../apiURL";
 import {NavLink} from "react-router-dom";
@@ -13,11 +12,12 @@ import {useDispatch} from "react-redux";
 import {deletePhoto} from "../../Store/Action/actionPhotos";
 import ModalBlock from "../ModalBlock/ModalBlock";
 import Divider from "@material-ui/core/Divider";
-
+import IconButton from "@material-ui/core/IconButton";
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const useStyles = makeStyles({
     root: {
-        maxWidth: 345,
+        maxWidth: 445,
     },
     media: {
         height: 340,
@@ -45,13 +45,13 @@ const CardPhoto = ({title, image, user, id}) => {
                     {
                         user ?
                             <>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                {title}
-                            </Typography>
-                            <Divider/>
-                            <Typography>
-                               by <NavLink to={`/gallery/${user._id}`}>{user.fullName}</NavLink>
-                            </Typography>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    {title}
+                                </Typography>
+                                <Divider/>
+                                <Typography>
+                                    by <NavLink to={`/gallery/${user._id}`}>{user.fullName}</NavLink>
+                                </Typography>
                             </>
                             :
                             <>
@@ -64,9 +64,10 @@ const CardPhoto = ({title, image, user, id}) => {
             </CardActionArea>
             <CardActions>
                 {!user &&
-                <Button size="small" color="primary" onClick={()=>deletePhotoId(id)}>
-                    delete
-                </Button>
+                <IconButton color="primary" aria-label="upload picture" component="span"
+                            onClick={() => deletePhotoId(id)}>
+                    <DeleteForeverIcon/>
+                </IconButton>
                 }
                 <ModalBlock image={image}/>
             </CardActions>
